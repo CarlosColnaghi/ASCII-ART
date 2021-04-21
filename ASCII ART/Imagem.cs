@@ -25,10 +25,39 @@ namespace ASCII_ART
             return imagemProcessada;
         }
 
+        private static Bitmap reduzirEscala(Bitmap imagemOriginal, int escala = 1)
+        {
+            Bitmap imagemProcessada = new Bitmap(imagemOriginal.Width/escala, imagemOriginal.Height/escala);
+            for(int i = 0, m = 0; i + escala < imagemOriginal.Height; i += escala, m++)
+            {
+                for(int j = 0, n = 0; j + escala < imagemOriginal.Width; j += escala, n++)
+                {
+                    int[] soma = { 0, 0, 0 };
+                    for(int k = i; k < i + escala; k++)
+                    {
+                        for(int l = j; l < j + escala; l++)
+                        {
+                            soma[0] += imagemOriginal.GetPixel(l, k).R;
+                            soma[1] += imagemOriginal.GetPixel(l, k).G;
+                            soma[2] += imagemOriginal.GetPixel(l, k).B;
+                        }
+                    }
+                    int[] media = new int[3];
+                    for(int o = 0; o < soma.Length; o++)
+                    {
+                        media[o] = soma[o] / (escala * escala);
+                    }
+                    imagemProcessada.SetPixel(n, m, Color.FromArgb(255, media[0], media[1], media[2]));
+                }
+            }
+            return imagemProcessada;
+        }
+
         public static String converterASCII(Bitmap imagem)
         {
             String caracteres = "@%#*+=-:. ";
             imagem = converterEscalaCinza(imagem);
+            //imagem = converterEscalaCinza(reduzirEscala(imagem));  
             String texto = null;
             for (int i = 0; i < imagem.Height; i++)
             {

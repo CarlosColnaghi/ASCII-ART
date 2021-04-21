@@ -70,7 +70,7 @@ namespace ASCII_ART
             // 
             // textBox1
             // 
-            this.textBox1.Font = new System.Drawing.Font("Courier New", 2F);
+            this.textBox1.Font = new System.Drawing.Font("Courier New", 5F);
             this.textBox1.Location = new System.Drawing.Point(6, 19);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
@@ -94,7 +94,7 @@ namespace ASCII_ART
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(947, 513);
+            this.ClientSize = new System.Drawing.Size(941, 513);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);

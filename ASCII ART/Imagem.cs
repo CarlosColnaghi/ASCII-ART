@@ -28,9 +28,9 @@ namespace ASCII_ART
         private static Bitmap reduzirEscala(Bitmap imagemOriginal, int escala = 1)
         {
             Bitmap imagemProcessada = new Bitmap(imagemOriginal.Width/escala, imagemOriginal.Height/escala);
-            for(int i = 0, m = 0; i + escala < imagemOriginal.Height; i += escala, m++)
+            for(int i = 0, m = 0; (i + escala) <= imagemOriginal.Height; i += escala, m++)
             {
-                for(int j = 0, n = 0; j + escala < imagemOriginal.Width; j += escala, n++)
+                for(int j = 0, n = 0; (j + escala) <= imagemOriginal.Width; j += escala, n++)
                 {
                     int[] soma = { 0, 0, 0 };
                     for(int k = i; k < i + escala; k++)
@@ -53,11 +53,10 @@ namespace ASCII_ART
             return imagemProcessada;
         }
 
-        public static String converterASCII(Bitmap imagem)
+        public static String converterASCII(Bitmap imagem, int escala = 1)
         {
             String caracteres = "@%#*+=-:. ";
-            imagem = converterEscalaCinza(imagem);
-            //imagem = converterEscalaCinza(reduzirEscala(imagem));  
+            imagem = converterEscalaCinza(reduzirEscala(imagem, escala));  
             String texto = null;
             for (int i = 0; i < imagem.Height; i++)
             {

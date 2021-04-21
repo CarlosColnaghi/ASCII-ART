@@ -15,6 +15,8 @@ namespace ASCII_ART
         public Form1()
         {
             InitializeComponent();
+            txtEscala.Text = "1";
+            txtFonte.Text = Convert.ToString(txtASCII.Font.Size);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -24,7 +26,37 @@ namespace ASCII_ART
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 picImagem.Image = new Bitmap(openFileDialog.FileName);
-                textBox1.Text = Imagem.converterASCII(new Bitmap(picImagem.Image));
+                txtASCII.Text = Imagem.converterASCII(new Bitmap(picImagem.Image));
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            txtEscala.Text = Convert.ToString(Convert.ToInt32(txtEscala.Text) + 1);
+            txtASCII.Text = Imagem.converterASCII(new Bitmap(picImagem.Image), Convert.ToInt32(txtEscala.Text));
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if(Convert.ToInt32(txtEscala.Text) > 1)
+            {
+                txtEscala.Text = Convert.ToString(Convert.ToInt32(txtEscala.Text) - 1);
+                txtASCII.Text = Imagem.converterASCII(new Bitmap(picImagem.Image), Convert.ToInt32(txtEscala.Text));
+            } 
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            txtFonte.Text = Convert.ToString(Convert.ToInt32(txtFonte.Text) + 1);
+            txtASCII.Font = new Font(txtASCII.Font.FontFamily, Convert.ToInt32(txtFonte.Text));
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(txtFonte.Text) > 1)
+            {
+                txtFonte.Text = Convert.ToString(Convert.ToInt32(txtFonte.Text) - 1);
+                txtASCII.Font = new Font(txtASCII.Font.FontFamily, Convert.ToInt32(txtFonte.Text));
             }
         }
     }

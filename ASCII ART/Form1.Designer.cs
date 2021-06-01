@@ -34,6 +34,7 @@ namespace ASCII_ART
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.txtASCII = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkBorda = new System.Windows.Forms.CheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -94,6 +95,7 @@ namespace ASCII_ART
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.chkBorda);
             this.groupBox2.Controls.Add(this.groupBox5);
             this.groupBox2.Controls.Add(this.groupBox4);
             this.groupBox2.Controls.Add(this.button1);
@@ -103,6 +105,17 @@ namespace ASCII_ART
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Controle";
+            // 
+            // chkBorda
+            // 
+            this.chkBorda.AutoSize = true;
+            this.chkBorda.Location = new System.Drawing.Point(6, 175);
+            this.chkBorda.Name = "chkBorda";
+            this.chkBorda.Size = new System.Drawing.Size(54, 17);
+            this.chkBorda.TabIndex = 17;
+            this.chkBorda.Text = "Borda";
+            this.chkBorda.UseVisualStyleBackColor = true;
+            this.chkBorda.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // groupBox5
             // 
@@ -211,6 +224,7 @@ namespace ASCII_ART
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox4.ResumeLayout(false);
@@ -234,6 +248,7 @@ namespace ASCII_ART
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TextBox txtFonte;
+        private System.Windows.Forms.CheckBox chkBorda;
     }
 }
 

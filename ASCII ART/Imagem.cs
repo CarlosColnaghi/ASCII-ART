@@ -10,7 +10,7 @@ namespace ASCII_ART
 {
     public static class Imagem
     {
-        private static Bitmap converterEscalaCinza(Bitmap imagemOriginal)
+        private static Bitmap converterCinzaClassico(Bitmap imagemOriginal)
         {
             Bitmap imagemProcessada = new Bitmap(imagemOriginal.Width, imagemOriginal.Height);
             for (int i = 0; i < imagemOriginal.Height; i++)
@@ -55,20 +55,93 @@ namespace ASCII_ART
 
         public static String converterASCII(Bitmap imagem, int escala = 1)
         {
-            String caracteres = "@%#*+=-:. ";
-            imagem = converterEscalaCinza(reduzirEscala(imagem, escala));  
             String texto = null;
-            for (int i = 0; i < imagem.Height; i++)
+            if (!imagem.Equals(null))
             {
-                for (int j = 0; j < imagem.Width; j++)
+                String caracteres = "@%#*+=-:.  ";
+                imagem = converterCinzaClassico(reduzirEscala(imagem, escala));
+
+                for (int i = 0; i < imagem.Height; i++)
                 {
-                    int cor = imagem.GetPixel(j, i).R;
-                    texto += Convert.ToChar(caracteres[cor*caracteres.Length/255]);
+                    for (int j = 0; j < imagem.Width; j++)
+                    {
+                        int cor = imagem.GetPixel(j, i).R;
+                        texto += Convert.ToChar(caracteres[cor * (caracteres.Length - 1) / 255]);
+                    }
+                    texto += System.Environment.NewLine;
                 }
-                texto += System.Environment.NewLine;
             }
             return texto;
         }
 
+        private static Bitmap converterCinzaMaximoCanal(Bitmap imagemOriginal)
+        {
+            Bitmap imagemProcessada = new Bitmap(imagemOriginal.Width, imagemOriginal.Height);
+            for (int i = 0; i < imagemOriginal.Height; i++)
+            {
+                for (int j = 0; j < imagemOriginal.Width; j++)
+                {
+                    Color pixel = imagemOriginal.GetPixel(j, i);
+                    int[] cores = { pixel.R, pixel.G, pixel.B };
+                    imagemProcessada.SetPixel(j, i, Color.FromArgb(255, cores.Max(), cores.Max(), cores.Max()));
+                }
+            }
+            return imagemProcessada;
+        }
+
+        private static Bitmap convoluirMascara(Bitmap imagemOriginal, int[,] mascara)
+        {
+            Bitmap imagemProcessada = new Bitmap(imagemOriginal.Width, imagemOriginal.Height);
+            for (int i = 1; i <= imagemOriginal.Height - 2; i++)
+            {
+                for (int j = 1; j <= imagemOriginal.Width - 2; j++)
+                {
+                    int soma = 0;
+                    for (int k = i - 1, m = 0; k <= i + 1; k++, m++)
+                    {
+                        for (int l = j - 1, n = 0; l <= j + 1; l++, n++)
+                        {
+                            soma += imagemOriginal.GetPixel(l, k).R * mascara[m, n];
+                        }
+                    }
+                    if (soma < 0)
+                    {
+                        soma = 0;
+                    }
+                    else if (soma > 255)
+                    {
+                        soma = 255;
+                    }
+                    imagemProcessada.SetPixel(j, i, Color.FromArgb(255, soma, soma, soma));
+                }
+            }
+            return imagemProcessada;
+        }
+
+        private static Bitmap realcarBorda(Bitmap imagem, int mascara = 1)
+        {
+            return convoluirMascara(imagem, Mascara.getLaplace(mascara));
+        }
+
+        public static String converterASCIIBorda(Bitmap imagem, int escala = 1)
+        {
+            String texto = null;
+            if (!imagem.Equals(null))
+            {
+                String caracteres = "  .:-= +*#%@";
+                imagem = realcarBorda(converterCinzaMaximoCanal(reduzirEscala(imagem, escala)));
+
+                for (int i = 0; i < imagem.Height; i++)
+                {
+                    for (int j = 0; j < imagem.Width; j++)
+                    {
+                        int cor = imagem.GetPixel(j, i).R;
+                        texto += Convert.ToChar(caracteres[cor * (caracteres.Length - 1) / 255]);
+                    }
+                    texto += System.Environment.NewLine;
+                } 
+            }
+            return texto;
+        }
     }
 }
